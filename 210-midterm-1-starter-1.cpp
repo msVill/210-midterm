@@ -1,58 +1,71 @@
 #include <iostream>
 using namespace std;
 
+//These are variables declared constant with the const keyword.
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 
+//Class for a Doubly Linked List
 class DoublyLinkedList {
 private:
+    //Node struct holds one element of the list. Each Node reps. a single "link" in the list.
     struct Node {
-        int data;
-        Node* prev;
-        Node* next;
+        int data; //stores the node's value
+        Node* prev; //pointer to the previous node
+        Node* next; //pointer to the next node
+
+        //Node constructor to initialize a node with a val. and pointers...
         Node(int val, Node* p = nullptr, Node* n = nullptr) {
-            data = val; 
-            prev = p;
-            next = n;
+            data = val; //store the value
+            prev = p; //link to previous node (if any)
+            next = n; //set pointer to next node
         }
     };
 
-    Node* head;
-    Node* tail;
+    Node* head; //pointer to the first node in the list
+    Node* tail; //pointer to the last node in the list
 
 public:
-    DoublyLinkedList() { head = nullptr; tail = nullptr; }
+//Constructor for an empty list
+    DoublyLinkedList() {
+         head = nullptr; //list starts empty, no head
+         tail = nullptr; //list starts empty, not tail
+     }
 
+     //insert a new node with 'value' after the node at 'position'
     void insert_after(int value, int position) {
-        if (position < 0) {
+        if (position < 0) { //check for invalid negative position
             cout << "Position must be >= 0." << endl;
-            return;
+            return; //exit function if invalid
         }
 
-        Node* newNode = new Node(value);
-        if (!head) {
-            head = tail = newNode;
-            return;
+        Node* newNode = new Node(value); //create a new node with the given value
+        
+        if (!head) { //checks if list is empty - if list is empty
+            head = tail = newNode; //new node is both head and tail
+            return; //done inserting
         }
 
-        Node* temp = head;
-        for (int i = 0; i < position && temp; ++i)
-            temp = temp->next;
+        Node* temp = head; //start from the head node
+        for (int i = 0; i < position && temp; ++i) //move temp forward to the called position
+            temp = temp->next; //go to next node/advance
 
-        if (!temp) {
+        if (!temp) { //if position exceeds list length
             cout << "Position exceeds list size. Node not inserted.\n";
-            delete newNode;
-            return;
+            delete newNode; //avoid memory leak!
+            return; //exit function
         }
 
-        newNode->next = temp->next;
-        newNode->prev = temp;
-        if (temp->next)
-            temp->next->prev = newNode;
+        newNode->next = temp->next; //new node points forward to temp's next
+        newNode->prev = temp; //new node points back to temp
+
+        if (temp->next) //if temp is not the last node
+            temp->next->prev = newNode; //next node points back to new node
         else
-            tail = newNode;
-        temp->next = newNode;
+            tail = newNode; //if temp was tail, new node is new tail
+        temp->next = newNode; //temp now points forward to new node
     }
 
+    //Delete the first node with the specified value
     void delete_val(int value) {
         if (!head) return;
 
