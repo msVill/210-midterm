@@ -67,12 +67,12 @@ public:
 
     //Delete the first node with the specified value
     void delete_val(int value) {
-        if (!head) return;
+        if (!head) return; //list empty, nothing to delete
 
-        Node* temp = head;
+        Node* temp = head; //start at head
         
-        while (temp && temp->data != value)
-            temp = temp->next;
+        while (temp && temp->data != value) //()/ search for node containing value
+            temp = temp->next; //mov to next node
 
         if (!temp) return; 
 
