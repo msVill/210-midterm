@@ -72,25 +72,27 @@ public:
         Node* temp = head; //start at head
         
         while (temp && temp->data != value) //()/ search for node containing value
-            temp = temp->next; //mov to next node
+            temp = temp->next; //move to next node
 
-        if (!temp) return; 
+        if (!temp) return; //value not found, - exit
 
-        if (temp->prev)
-            temp->prev->next = temp->next;
+        if (temp->prev) //if not last node
+            temp->prev->next = temp->next; //previous node points forward to temp's next
         else
-            head = temp->next; 
+            head = temp->next; //if first node, update head
 
-        if (temp->next)
-            temp->next->prev = temp->prev;
+        if (temp->next) //if not last node
+            temp->next->prev = temp->prev; //next node pooints back to temp's prev
         else
-            tail = temp->prev; 
+            tail = temp->prev;  //if last node, update tail
 
-        delete temp;
+        delete temp; //free memory for removed node
+        //don't give up....
     }
 
+    //delete the node at a specific position
     void delete_pos(int pos) {
-        if (!head) {
+        if (!head) { //list is empty
             cout << "List is empty." << endl;
             return;
         }
